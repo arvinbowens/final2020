@@ -1,7 +1,7 @@
 ---
 title: "Aides Drug"
 author: "Arvin Bowens"
-date: "put the date here"
+date: "April 9th, 2020"
 output: html_document
 ---
 
@@ -21,9 +21,14 @@ A new  preventative aides (triUmpsal) is under test in clinical trials. Analyze 
 
 <!--Decide on your methods:  use "variable analysis" or other appropriate descriptors.  Make sure to choose at least one graphical method and at least one numerical method. Discuss what data manipulations may be needed for example subsetting or other binning procedures and what sort of graphical displays and inferential tools will be used!-->
 
-#Results
+Because all variables are categorical, we use a bar chart for the graphical   description, a cross-tabulation for the numerical summary, and a chi-squared test  and Fisher exact test for inference.
+
+# Results
 
 <!--Divide this section into two sub-sections:  One for your descriptive  results and one for your inferential results.!-->
+
+H0H0: the vaccine has no effect on whether one contracts Aids or not
+H0HA: the vaccine has an effect on whether one contracts Aids or not
 
 ## Descriptive Results
 
@@ -37,13 +42,14 @@ require(tidyverse)
 require(tigerstats)
 
 ```
-Question number one uses is the drug efective in the entire population.
+Question number one uses is the drug effective in the entire population.
 
 ### Plot barplots
 
 ```{r}
 barchartGC(~infected + treatment,data=triUmp,type="percent")
 ```
+
 This bar chart shows that amoung those who got aids fewer of them had the treatment.This suggest that the treatment helps one prevent from getting aids.
 
 ### Numerical Descriptive Results
@@ -55,18 +61,24 @@ table1 <- xtabs(~infected + treatment, data=triUmp)
 rowPerc(table1)
 colPerc(table1)
 ```
+
 These tables show that amoung those who got aids fewer of them had the treatment so 40% had the treatment and 60% got aids.
+
 ## Inferential Results
 
 <!--State hypothesis clearly.  Make sure your discussion of the inferential test covers all the aspects that the test output produces, such as test statistic, p-value etc.  Make a decision about the null hypothesis, explain the assumptions on which the selected test/procedure was based, and why the chosen procedure satisfys the assumptions and is appropriate to answer the research question!-->
+
 ```{r}
 chisq.test(table1)
 chisqtestGC(table1)
 fisher.test(table1)
 ```
+
 The odds ratiol is .72 to 1 so if your on the treatment you are less likely to get infected with aids.
 
 Question number two uses is the drug efective among females.
+
+$H_0$: the drug has no effect on whether females contract aids or not
 
 ### Plot barplots
 
@@ -75,6 +87,8 @@ Question number two uses is the drug efective among females.
 females=filter(triUmp, gender=='F')
 barchartGC(~infected + treatment,data=females,type="percent")
 ```
+
+
 This bar chart shows that amoung females who got aids more of them had the treatment.This suggest that the treatment shows that females are more than likely to get aid than the females that did not get the treatment.
 
 
@@ -87,6 +101,7 @@ table1 <- xtabs(~infected + treatment, data=females)
 rowPerc(table1)
 colPerc(table1)
 ```
+
 These tables show that amoung females who got aids more of them had the treatment so 59% had the treatment got aids.And only about 41% of those did not get the treatment got aids.
 
 ## Inferential Results
@@ -97,8 +112,120 @@ chisq.test(table1)
 chisqtestGC(table1)
 fisher.test(table1)
 ```
+
 The odds ratiol is 1.5 to 1 so woman who took the treatment one point five more likely to get infected with aids.Than woman that did not get the treatment.
 
+Question number three uses is the drug effective among males.
+
+### Plot barplots
+
+```{r}
+
+males=filter(triUmp, gender=='M')
+barchartGC(~infected + treatment,data=males,type="percent")
+```
+
+
+This bar chart shows that amoung males who got aids more of them had the treatment.This suggest that the treatment effects males than those who did not take the treatment.
+
+### Numerical Descriptive Results
+
+<!--Numerical results go here. Use the numerical results to describe the patterns if any that exist in the data as focused toward the research question!-->
+
+```{r}
+table1 <- xtabs(~infected + treatment, data=males)
+rowPerc(table1)
+colPerc(table1)
+```
+
+These tables show that amoung males who got aids more of them had the treatment so 70% had the treatment got aids.And only about 90% of those did not get the treatment got aids.
+
+## Inferential Results
+
+<!--State hypothesis clearly.  Make sure your discussion of the inferential test covers all the aspects that the test output produces, such as test statistic, p-value etc.  Make a decision about the null hypothesis, explain the assumptions on which the selected test/procedure was based, and why the chosen procedure satisfys the assumptions and is appropriate to answer the research question!-->
+```{r}
+chisq.test(table1)
+chisqtestGC(table1)
+fisher.test(table1)
+```
+
+The odds ratiol is 0.45 to 1 so amoung males that took the treatment about zero point four five got aids than those who did not take the treatment.  
+
+Question number four uses is the drug effective among LGBTQ.  
+
+
+### Plot barplots
+
+```{r}
+
+LGBTQ=filter(triUmp, LGBTQ =='gay')
+barchartGC(~infected + treatment,data=LGBTQ,type="percent")
+```
+
+
+This bar chart shows that amoung members of the LGBTQ community who got aids more of them had the treatment did not get aids and those who did not get the treatment got aids.
+
+### Numerical Descriptive Results
+
+<!--Numerical results go here. Use the numerical results to describe the patterns if any that exist in the data as focused toward the research question!-->
+
+```{r}
+table1 <- xtabs(~infected + treatment, data=LGBTQ)
+rowPerc(table1)
+colPerc(table1)
+```
+
+These tables show that amoung the LGBTQ community who got aids more of them had the treatment so 27% had the treatment got aids.And only about 97% of those did not get the treatment got aids.
+
+## Inferential Results
+
+<!--State hypothesis clearly.  Make sure your discussion of the inferential test covers all the aspects that the test output produces, such as test statistic, p-value etc.  Make a decision about the null hypothesis, explain the assumptions on which the selected test/procedure was based, and why the chosen procedure satisfys the assumptions and is appropriate to answer the research question!-->
+```{r}
+chisq.test(table1)
+chisqtestGC(table1)
+fisher.test(table1)
+```
+
+The odds ratiol is 2.72 to 1 so LGBTQ who took the treatment two point seven-two likely to get infected with aids.Than those who are gay that did not get the treatmen got aids.
+
+
+Question number five uses is the drug effective among drug users.  
+
+
+### Plot barplots
+
+```{r}
+
+DrugUser=filter(triUmp, DrugUser =='yes')
+barchartGC(~infected + treatment,data=DrugUser,type="percent")
+```
+
+
+This bar chart shows that amoung drug users who got aids more of them got aids that took the treatment and for the drug users that did not take the treatment less of them got aids without the treantment.
+
+### Numerical Descriptive Results
+
+<!--Numerical results go here. Use the numerical results to describe the patterns if any that exist in the data as focused toward the research question!-->
+
+```{r}
+table1 <- xtabs(~infected + treatment, data=DrugUser)
+rowPerc(table1)
+colPerc(table1)
+```
+
+These tables show that 75% of drugs users got aids with the treatment and about 92% of those that did not take the treatment still got effected. 
+
+
+## Inferential Results
+
+<!--State hypothesis clearly.  Make sure your discussion of the inferential test covers all the aspects that the test output produces, such as test statistic, p-value etc.  Make a decision about the null hypothesis, explain the assumptions on which the selected test/procedure was based, and why the chosen procedure satisfys the assumptions and is appropriate to answer the research question!-->
+```{r}
+chisq.test(table1)
+chisqtestGC(table1)
+fisher.test(table1)
+```
+
+The odds ratiol is 0.35 to 1 so drugusers  who took the treatment zero point thirty-five percent more likely to get infected with aids.Than drugusers that did not get the treatment.
 
 
 
